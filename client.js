@@ -9,6 +9,10 @@ socket.on('sound_data', function (data) {
   }
 });
 
+socket.on('redis_message', function(data) {
+	console.log(data);
+});
+
 o3djs.require('o3djs.shader');
 
 function output(str) {
@@ -24,8 +28,6 @@ var source;
 var analyser;
 var buffer;
 var audioBuffer;
-
-// Added by me
 var soundData;
 
 function error() {
@@ -105,6 +107,10 @@ function draw() {
     if(receivedAudioBuffer != undefined) {
    	 analyserView1.drawGL(receivedAudioBuffer);
    	}
+   	// else
+   	// {
+   	// 	analyserView1.drawGL(soundData);
+   	// }
 
     window.requestAnimationFrame(draw);
 }
