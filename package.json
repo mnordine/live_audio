@@ -1,0 +1,19 @@
+{
+  "name": "live_audio",
+  "subdomain": "marknordine.live_audio",
+  "scripts": {
+    "start": "app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mnordine/live_audio.git"
+  },
+  "dependencies": {
+    "socket.io": "0.9.x"
+  },
+  "version": "0.0.0-4",
+  "license": "MIT",
+  "engines": {
+    "node": "0.8.x"
+  }
+}
