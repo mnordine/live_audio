@@ -1,32 +1,29 @@
-var app = require('http').createServer(handler);
-var io = require('socket.io').listen(app);
+var http = require('http');
+var io = require('socket.io');
 var fs = require('fs');
 
-// Static server
-function handler(req, res) {
+// var options = {
+// 	key: fs.readFileSync('keys/spdy-key.pem'),
+// 	cert: fs.readFileSync('keys/spdy-cert.pem')
+// }
 
-	console.log(req.url);
+var app = http.createServer(function(req, res) {
 
-	var url = req.url;
-	if(req.url === '/') {
-			url = '/index.html';
-	}
+	req.url = req.url === '/' ? '/index.html' : req.url;
 
-	//console.log(url);
-
-	fs.readFile(__dirname + url, function(err, contents) {
+	fs.readFile(__dirname + req.url, function(err, contents) {
 		if(err) {
 			res.writeHead(500);
-			return res.end('error fetching ' + url + ': ' + err);
+			return res.end('error fetching ' + req.url + ': ' + err);
 		}
 
 		res.writeHead(200);
 		res.end(contents);
 	});
-	
-}
+});
 
-app.listen(8080);
+app.listen(80);
+var io = require('socket.io').listen(app);
 
 // Config
 io.configure(function() {
@@ -38,7 +35,8 @@ io.sockets.on('connection', function(socket) {
 	//console.log('connection');
 	socket.on('sound_data', function(data) {
 		//console.log('received ' + data);
-		socket.broadcast.emit('sound_data', data);
+		socket.volatile.broadcast.emit('sound_data', data);
 	});
 	
 });
+
